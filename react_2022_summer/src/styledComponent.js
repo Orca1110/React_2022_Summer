@@ -9,8 +9,8 @@ export const MediaDiv = styled.div`
     @media screen and (max-width: 768px) {
         width: 100%;
     }
-`;
-export const Header = styled.div`
+  `;
+  export const HeaderDiv = styled.div`
     width: 768px;
     height: auto;
     display: flex;
@@ -43,8 +43,9 @@ export const TitleSmall = styled.span`
 export const SubHeaderDiv = styled.div`
     margin: 15px;
     font-size: 25px;
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
 `;
 
 export const Main = styled.div`
@@ -137,11 +138,10 @@ export const PagenumberDiv = styled.div`
     height: 30px;
     display: flex;
     justify-content: center;
-    align-items: center;
     border: 1px solid #f39926;
     border-radius: 5px;
 `;
-export const Footer = styled.div`
+    export const Footerdiv = styled.div`
     margin-top: 30px;
     display: flex;
     flex-direction: column;
