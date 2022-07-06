@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import {
   HeaderDiv,
   TitleLogoDiv,
   TitleBig,
   TitleSmall,
   SubHeaderDiv,
-} from './styledComponent';
+} from "./styledComponent";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
 function Header({ darkMode, setDarkMode }) {
   const toggleDarkMode = () => {
