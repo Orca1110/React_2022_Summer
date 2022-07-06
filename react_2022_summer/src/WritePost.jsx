@@ -12,11 +12,11 @@ import {
 import WriteTitle from "./WriteTitle";
 import InputPost from "./InputPost";
 
-const SubmitComponent = () => (
+const SubmitComponent = React.memo(() => (
     <PostSubmitDiv>
         <PostSubmit>작성완료</PostSubmit>
     </PostSubmitDiv>
-);
+));
 
 function WritePost(props) {
     const [inputs, setInputs] = useState({

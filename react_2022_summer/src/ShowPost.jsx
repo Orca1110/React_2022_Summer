@@ -38,6 +38,51 @@ const countRepls = (repls) => {
     console.log("리뷰 개수를 세는 중...");
     return repls.length;
 };
+
+const PostandRepl = React.memo(
+    ({ post, postLoading, replLoading, repls, replCount }) => {
+        return (
+            <PostSection>
+                <PostTitleDiv>
+                    <PostTitle>
+                        {/* title */}
+                        {post && post.title}
+                    </PostTitle>
+                </PostTitleDiv>
+
+                {postLoading ? (
+                    <LoadingDiv>
+                        <LoadingImg
+                            src={`${process.env.PUBLIC_URL}/loading.svg`}
+                        />
+                    </LoadingDiv>
+                ) : (
+                    <PostReadDiv>{post && post.contents} </PostReadDiv>
+                )}
+
+                {/* post contents */}
+
+                <ReplTitleDiv>댓글 {replCount}</ReplTitleDiv>
+                {replLoading ? (
+                    <LoadingDiv>
+                        <LoadingImg
+                            src={`${process.env.PUBLIC_URL}/loading.svg`}
+                        />
+                    </LoadingDiv>
+                ) : (
+                    repls &&
+                    repls.map((element) => (
+                        <PostReplDiv key={element.id}>
+                            <Replwriter>익명</Replwriter>
+                            <Repl>{element.contents}</Repl>
+                        </PostReplDiv>
+                    ))
+                )}
+            </PostSection>
+        );
+    }
+);
+
 const ShowPost = (props) => {
     const Params = useParams();
     const [post, setPost] = useState(null);
@@ -76,54 +121,23 @@ const ShowPost = (props) => {
     }
     return (
         <div>
-            <PostSection>
-                <PostTitleDiv>
-                    <PostTitle>
-                        {/* title */}
-                        {post && post.title}
-                    </PostTitle>
-                </PostTitleDiv>
-
-                {postLoading ? (
-                    <LoadingDiv>
-                        <LoadingImg
-                            src={`${process.env.PUBLIC_URL}/loading.svg`}
-                        />
-                    </LoadingDiv>
-                ) : (
-                    <PostReadDiv>{post && post.contents} </PostReadDiv>
-                )}
-
-                {/* post contents */}
-
-                <ReplTitleDiv>댓글 {replCount}</ReplTitleDiv>
-                {replLoading ? (
-                    <LoadingDiv>
-                        <LoadingImg
-                            src={`${process.env.PUBLIC_URL}/loading.svg`}
-                        />
-                    </LoadingDiv>
-                ) : (
-                    repls &&
-                    repls.map((element) => (
-                        <PostReplDiv key={element.id}>
-                            <Replwriter>익명</Replwriter>
-                            <Repl>{element.contents}</Repl>
-                        </PostReplDiv>
-                    ))
-                )}
-
-                <WritereplDiv>
-                    <ReplInput
-                        onChange={onChange}
-                        value={repl}
-                        ref={replInput}
-                    ></ReplInput>
-                    <ReplSubmitDiv>
-                        <span>입력</span>
-                    </ReplSubmitDiv>
-                </WritereplDiv>
-            </PostSection>
+            <PostandRepl
+                post={post}
+                postLoading={postLoading}
+                repls={repls}
+                replCount={replCount}
+                replLoading={replLoading}
+            />
+            <WritereplDiv>
+                <ReplInput
+                    onChange={onChange}
+                    value={repl}
+                    ref={replInput}
+                ></ReplInput>
+                <ReplSubmitDiv>
+                    <span>입력</span>
+                </ReplSubmitDiv>
+            </WritereplDiv>
         </div>
     );
 };
