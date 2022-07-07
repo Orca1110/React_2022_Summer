@@ -16,14 +16,6 @@ import {
     Replwriter,
     WritereplDiv,
 } from "./styledComponent";
-const postData = {
-    title: "어렵사리 정한 제목입니다.",
-    contents: `내가 그때 그렇게 딱 했는데 보이는 사람은 너라는 것을 알게 되었어, 그게
-  나에게는 힘들었지만, 쉽내가 그때 그렇게 딱 했는데 보이는 사람은 너라는
-  것을 알게 되었어, 그게 나에게는 힘들었지만, 내가 그때 그렇게 딱 했는데
-  보이는 사람은 너라는 것을 알게 되었어, 그게 나에게는 힘들었지만, 지
-  않았던 만큼 더욱 성장할 수 있다는 것을 뼈저리게 느꼈지`,
-};
 
 const replData = [
     {
@@ -40,49 +32,43 @@ const countRepls = (repls) => {
     return repls.length;
 };
 
-const PostandRepl = React.memo(
-    ({ post, postLoading, replLoading, repls, replCount }) => {
-        return (
-            <PostSection>
-                <PostTitleDiv>
-                    <PostTitle>
-                        {/* title */}
-                        {post && post.title}
-                    </PostTitle>
-                </PostTitleDiv>
+const PostandRepl = React.memo(({ post, postLoading, replLoading, repls, replCount }) => {
+    return (
+        <PostSection>
+            <PostTitleDiv>
+                <PostTitle>
+                    {/* title */}
+                    {post && post.title}
+                </PostTitle>
+            </PostTitleDiv>
 
-                {postLoading ? (
-                    <LoadingDiv>
-                        <LoadingImg
-                            src={`${process.env.PUBLIC_URL}/loading.svg`}
-                        />
-                    </LoadingDiv>
-                ) : (
-                    <PostReadDiv>{post && post.contents} </PostReadDiv>
-                )}
+            {postLoading ? (
+                <LoadingDiv>
+                    <LoadingImg src={`${process.env.PUBLIC_URL}/loading.svg`} />
+                </LoadingDiv>
+            ) : (
+                <PostReadDiv>{post && post.contents} </PostReadDiv>
+            )}
 
-                {/* post contents */}
+            {/* post contents */}
 
-                <ReplTitleDiv>댓글 {replCount}</ReplTitleDiv>
-                {replLoading ? (
-                    <LoadingDiv>
-                        <LoadingImg
-                            src={`${process.env.PUBLIC_URL}/loading.svg`}
-                        />
-                    </LoadingDiv>
-                ) : (
-                    repls &&
-                    repls.map((element) => (
-                        <PostReplDiv key={element.id}>
-                            <Replwriter>익명</Replwriter>
-                            <Repl>{element.contents}</Repl>
-                        </PostReplDiv>
-                    ))
-                )}
-            </PostSection>
-        );
-    }
-);
+            <ReplTitleDiv>댓글 {replCount}</ReplTitleDiv>
+            {replLoading ? (
+                <LoadingDiv>
+                    <LoadingImg src={`${process.env.PUBLIC_URL}/loading.svg`} />
+                </LoadingDiv>
+            ) : (
+                repls &&
+                repls.map((element) => (
+                    <PostReplDiv key={element}>
+                        <Replwriter>익명</Replwriter>
+                        <Repl>{element}</Repl>
+                    </PostReplDiv>
+                ))
+            )}
+        </PostSection>
+    );
+});
 
 const ShowPost = ({ apiUrl }) => {
     const Params = useParams();
@@ -113,6 +99,17 @@ const ShowPost = ({ apiUrl }) => {
 
     const replInput = useRef();
 
+    const onSubmitRepl = () => {
+        axios
+            .post(`${apiUrl}repl/`, {
+                contents: repl,
+                post: Params.postID,
+            })
+            .then(() => {
+                window.location.reload();
+            });
+    };
+
     if (!Params.postID) {
         return <PostSection>잘못된 접근입니다.</PostSection>;
     }
@@ -126,12 +123,8 @@ const ShowPost = ({ apiUrl }) => {
                 replLoading={replLoading}
             />
             <WritereplDiv>
-                <ReplInput
-                    onChange={onChange}
-                    value={repl}
-                    ref={replInput}
-                ></ReplInput>
-                <ReplSubmitDiv>
+                <ReplInput onChange={onChange} value={repl} ref={replInput}></ReplInput>
+                <ReplSubmitDiv onClick={onSubmitRepl}>
                     <span>입력</span>
                 </ReplSubmitDiv>
             </WritereplDiv>
