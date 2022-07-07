@@ -20,28 +20,21 @@ function App() {
             <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
                 <GlobalStyles />
                 <MediaDiv>
-                    <Header
-                        darkMode={darkMode}
-                        setDarkMode={setDarkMode}
-                    ></Header>
+                    <Header darkMode={darkMode} setDarkMode={setDarkMode}></Header>
                     <Main>
                         <Slogun></Slogun>
                         <Routes>
                             <Route
                                 path="/"
-                                element={
-                                    <ShowPostList
-                                        apiUrl={API_URL}
-                                    ></ShowPostList>
-                                }
+                                element={<ShowPostList apiUrl={API_URL}></ShowPostList>}
                             ></Route>
                             <Route
                                 path="/write"
-                                element={<WritePost></WritePost>}
+                                element={<WritePost apiUrl={API_URL}></WritePost>}
                             ></Route>
                             <Route
                                 path="/post/:postID"
-                                element={<ShowPost></ShowPost>}
+                                element={<ShowPost apiUrl={API_URL}></ShowPost>}
                             ></Route>
                         </Routes>
                     </Main>

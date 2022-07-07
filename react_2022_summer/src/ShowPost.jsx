@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import {
     LoadingDiv,
     LoadingImg,
@@ -83,7 +84,7 @@ const PostandRepl = React.memo(
     }
 );
 
-const ShowPost = (props) => {
+const ShowPost = ({ apiUrl }) => {
     const Params = useParams();
     const [post, setPost] = useState(null);
     const [repls, setRepls] = useState([]);
@@ -91,17 +92,13 @@ const ShowPost = (props) => {
     const [replLoading, setReplLoading] = useState(true);
 
     useEffect(() => {
-        setTimeout(() => {
-            setPost(postData);
+        axios.get(`${apiUrl}posts/${Params.postID}`).then((response) => {
+            setPost(response.data);
             setPostLoading(false);
-        }, 300);
-        replInput.current.focus();
-    }, []);
-    useEffect(() => {
-        setTimeout(() => {
-            setRepls(replData);
+            setRepls(response.data.repls);
             setReplLoading(false);
-        }, 1000);
+            replInput.current.focus();
+        });
     }, []);
 
     const [repl, setRepl] = useState("");

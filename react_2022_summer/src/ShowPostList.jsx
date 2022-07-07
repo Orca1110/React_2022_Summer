@@ -35,19 +35,17 @@ function ShowPostList({ apiUrl }) {
 
     const getPostList = useCallback(() => {
         setLoading(true);
-        axios
-            .get(`${apiUrl}list/?page=${page}&page_size=10`)
-            .then((response) => {
-                const lastPage = Math.ceil(response.data.count / 10);
-                const tempPages = [];
-                for (let i = 1; i <= lastPage; i++) {
-                    tempPages.push(i);
-                }
-                setPages(tempPages);
+        axios.get(`${apiUrl}list/?page=${page}&page_size=10`).then((response) => {
+            const lastPage = Math.ceil(response.data.count / 10);
+            const tempPages = [];
+            for (let i = 1; i <= lastPage; i++) {
+                tempPages.push(i);
+            }
+            setPages(tempPages);
 
-                setPostList(response.data.results);
-                setLoading(false);
-            });
+            setPostList(response.data.results);
+            setLoading(false);
+        });
     });
 
     useEffect(getPostList, [page]);
@@ -56,16 +54,10 @@ function ShowPostList({ apiUrl }) {
         <>
             <PostSection>
                 <PostTitleDiv>
-                    <FontAwesomeIcon
-                        onClick={getPostList}
-                        icon={faArrowsRotate}
-                    />
+                    <FontAwesomeIcon onClick={getPostList} icon={faArrowsRotate} />
                     <PostTitle>익명게시판</PostTitle>
                     <CursorDiv>
-                        <FontAwesomeIcon
-                            onClick={goWrite}
-                            icon={faPenToSquare}
-                        />
+                        <FontAwesomeIcon onClick={goWrite} icon={faPenToSquare} />
                     </CursorDiv>
                 </PostTitleDiv>
                 <PostListDiv>
@@ -101,10 +93,7 @@ function ShowPostList({ apiUrl }) {
                     <FontAwesomeIcon icon={faArrowLeft} />
                 </PagenumberDiv>
                 {pages.map((pageNum) => (
-                    <PagenumberDiv
-                        key={pageNum}
-                        onClick={() => setPage(pageNum)}
-                    >
+                    <PagenumberDiv key={pageNum} onClick={() => setPage(pageNum)}>
                         {pageNum}
                     </PagenumberDiv>
                 ))}
