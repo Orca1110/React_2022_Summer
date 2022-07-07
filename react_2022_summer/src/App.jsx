@@ -10,31 +10,46 @@ import { Routes, Route } from "react-router-dom";
 import ShowPost from "./ShowPost";
 import WritePost from "./WritePost";
 
-function App() {
-  const [darkMode, setDarkMode] = useState(true);
+const API_URL = "https://reactapitest.pythonanywhere.com/api/";
 
-  return (
-    <>
-      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <GlobalStyles />
-        <MediaDiv>
-          <Header darkMode={darkMode} setDarkMode={setDarkMode}></Header>
-          <Main>
-            <Slogun></Slogun>
-            <Routes>
-              <Route path="/" element={<ShowPostList></ShowPostList>}></Route>
-              <Route path="/write" element={<WritePost></WritePost>}></Route>
-              <Route
-                path="/post/:postID"
-                element={<ShowPost></ShowPost>}
-              ></Route>
-            </Routes>
-          </Main>
-          <Footer></Footer>
-        </MediaDiv>
-      </ThemeProvider>
-    </>
-  );
+function App() {
+    const [darkMode, setDarkMode] = useState(true);
+
+    return (
+        <>
+            <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+                <GlobalStyles />
+                <MediaDiv>
+                    <Header
+                        darkMode={darkMode}
+                        setDarkMode={setDarkMode}
+                    ></Header>
+                    <Main>
+                        <Slogun></Slogun>
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={
+                                    <ShowPostList
+                                        apiUrl={API_URL}
+                                    ></ShowPostList>
+                                }
+                            ></Route>
+                            <Route
+                                path="/write"
+                                element={<WritePost></WritePost>}
+                            ></Route>
+                            <Route
+                                path="/post/:postID"
+                                element={<ShowPost></ShowPost>}
+                            ></Route>
+                        </Routes>
+                    </Main>
+                    <Footer></Footer>
+                </MediaDiv>
+            </ThemeProvider>
+        </>
+    );
 }
 
 export default App;
